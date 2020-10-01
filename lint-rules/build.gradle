@@ -1,6 +1,11 @@
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
 
+jar {
+    manifest {
+        attributes["Lint-Registry-v2"] = "io.github.mishkun.lintrules.LintRegistry"
+    }
+}
 
 test {
     useJUnitPlatform()
