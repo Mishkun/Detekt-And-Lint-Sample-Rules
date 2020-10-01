@@ -1,5 +1,6 @@
-package io.github.mishkun.detekt_rules
+package io.github.mishkun.detektrules
 
+import io.github.mishkun.detektrules.rules.WhenInsteadOfIfRule
 import io.gitlab.arturbosch.detekt.api.Config
 import io.gitlab.arturbosch.detekt.api.RuleSet
 import io.gitlab.arturbosch.detekt.api.RuleSetProvider
@@ -9,6 +10,6 @@ class DetektRulesProvider : RuleSetProvider {
 
     override fun instance(config: Config) = RuleSet(
         ruleSetId,
-        listOf()
+        listOf(WhenInsteadOfIfRule())
     )
 }

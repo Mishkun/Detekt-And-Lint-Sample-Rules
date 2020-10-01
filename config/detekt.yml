@@ -1,3 +1,7 @@
 comments:
   AbsentOrWrongFileLicense:
     active: false
+
+my_awesome_rules:
+  WhenInsteadOfIf:
+    active: true

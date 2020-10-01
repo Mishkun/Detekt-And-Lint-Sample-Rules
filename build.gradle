@@ -30,7 +30,13 @@ detekt {
     }
 }
 
-tasks.detekt.jvmTarget = "1.8"
+tasks.detekt {
+    dependsOn ":detekt-rules:assemble"
+    jvmTarget = "1.8"
+}
+dependencies {
+    detektPlugins project(":detekt-rules")
+}
 
 allprojects {
     repositories {
