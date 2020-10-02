@@ -1,2 +1,3 @@
+include ':detekt-rules'
 include ':app'
 rootProject.name = "Example Lint App"
