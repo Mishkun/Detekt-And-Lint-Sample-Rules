@@ -1,12 +1,8 @@
 package io.github.mishkun.lintrules.rules
 
+import com.android.tools.lint.detector.api.*
 import com.android.tools.lint.detector.api.Category.Companion.INTEROPERABILITY_KOTLIN
-import com.android.tools.lint.detector.api.Implementation
-import com.android.tools.lint.detector.api.Issue
-import com.android.tools.lint.detector.api.LayoutDetector
 import com.android.tools.lint.detector.api.Scope.Companion.RESOURCE_FILE_SCOPE
-import com.android.tools.lint.detector.api.Severity
-import com.android.tools.lint.detector.api.XmlContext
 import org.w3c.dom.Attr
 
 val ViewIdNamingIssue = Issue.create(
@@ -33,11 +29,20 @@ class ViewIdNamingIssueDetector : LayoutDetector() {
             context.report(
                 issue = ViewIdNamingIssue,
                 location = context.getLocation(attribute),
-                message = "Incorrect view id prefix"
+                message = "Incorrect view id prefix",
+                quickfixData = buildFix(attribute)
             )
         }
     }
 
-    private fun getIdPrefix(string: String) = string.takeLastWhile { it != '/' }
+    private fun buildFix(attribute: Attr): LintFix {
+        val id = getId(attribute.value)
+        val prefixed = "v${id.capitalize()}"
+        return fix().name("Add v prefix").replace().text(id).with(prefixed).build()
+    }
+
+    private fun getId(string: String) =string.takeLastWhile { it != '/' }
+
+    private fun getIdPrefix(string: String) = getId(string)
         .takeWhile { it.isLowerCase() }
 }

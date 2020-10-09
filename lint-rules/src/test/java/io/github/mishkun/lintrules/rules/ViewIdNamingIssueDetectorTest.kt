@@ -61,6 +61,25 @@ class ViewIdNamingIssueDetectorTest : FreeSpec({
         fileContent.lintAsLayoutFile(ViewIdNamingIssue)
             .expectWarningCount(1)
     }
+
+    "should suggest fix" {
+        @Language("XML")
+        val fileContent = """
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/layout" >
+        </LinearLayout>        
+        """.trimIndent()
+
+        fileContent.lintAsLayoutFile(ViewIdNamingIssue)
+            .expectFixDiffs("""
+                Fix for res/layout/dummy_layout.xml line 3: Add v prefix:
+                @@ -3 +3
+                -     android:id="@+id/layout" >
+                +     android:id="@+id/vLayout" >
+            """.trimIndent())
+    }
+
 })
 
 fun String.lintAsLayoutFile(vararg issues: Issue): TestLintResult =
